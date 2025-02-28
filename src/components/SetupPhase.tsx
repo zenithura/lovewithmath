@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, Plus, Trash2, ChevronRight, Users, Loader } from 'lucide-react';
+import { Settings, Plus, Trash2, ChevronRight, ChevronLeft, Users, Loader } from 'lucide-react';
 
 interface SetupPhaseProps {
   totalCandidates: number;
@@ -55,15 +55,31 @@ const SetupPhase: React.FC<SetupPhaseProps> = ({
           <label htmlFor="totalCandidates" className="block text-sm font-medium text-gray-700 mb-1">
             Toplam Aday Sayısı
           </label>
-          <input
-            type="number"
-            id="totalCandidates"
-            min="10"
-            max="1000"
-            value={totalCandidates}
-            onChange={(e) => setTotalCandidates(Math.max(10, parseInt(e.target.value) || 10))}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-          />
+          <div className="relative flex items-center">
+            <button
+              type="button"
+              onClick={() => setTotalCandidates(prev => Math.max(10, prev - 1))}
+              className="absolute left-0 top-0 h-full px-3 text-gray-600 hover:text-gray-900 border-r border-gray-300 flex items-center justify-center bg-gray-50 rounded-l-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <input
+              type="number"
+              id="totalCandidates"
+              min="10"
+              max="1000"
+              value={totalCandidates}
+              onChange={(e) => setTotalCandidates(Math.max(10, parseInt(e.target.value) || 10))}
+              className="w-full px-12 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 text-center"
+            />
+            <button
+              type="button"
+              onClick={() => setTotalCandidates(prev => Math.min(1000, prev + 1))}
+              className="absolute right-0 top-0 h-full px-3 text-gray-600 hover:text-gray-900 border-l border-gray-300 flex items-center justify-center bg-gray-50 rounded-r-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             Değerlendirmek istediğiniz toplam aday sayısı (minimum 10)
           </p>
