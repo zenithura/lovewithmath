@@ -47,6 +47,14 @@ const CandidateSetupModal: React.FC<CandidateSetupModalProps> = ({
     }
   }, [totalCandidates, criteria, initialCandidates]);
 
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   // Update candidate name
   const updateCandidateName = (id: number, name: string) => {
     setCandidates(candidates.map(candidate => 
@@ -89,107 +97,110 @@ const CandidateSetupModal: React.FC<CandidateSetupModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">Adayları Özelleştir</h2>
-            <button 
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
-              disabled={isSaving}
-            >
-              <X size={24} />
-            </button>
-          </div>
-          
-          <div className="space-y-6">
-            {getCurrentPageCandidates().map((candidate) => (
-              <div key={candidate.id} className="border rounded-lg p-4">
-                <div className="flex flex-col space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <label className="font-medium min-w-[100px]">İsim:</label>
-                    <input
-                      type="text"
-                      value={candidate.name}
-                      onChange={(e) => updateCandidateName(candidate.id, e.target.value)}
-                      className="flex-1 p-2 border rounded"
-                      disabled={isSaving}
-                    />
-                  </div>
-                  
-                  {criteria.map((criterion) => (
-                    <div key={criterion} className="flex items-center space-x-4">
-                      <label className="font-medium min-w-[100px]">{criterion}:</label>
+    <div 
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 overflow-hidden"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div 
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl m-4 flex flex-col max-h-[90vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sticky top-0 bg-white z-10 px-6 py-4 border-b flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-gray-800">Adayları Özelleştir</h2>
+          <button 
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 transition-colors p-2 hover:bg-gray-100 rounded-full"
+            disabled={isSaving}
+          >
+            <X size={24} />
+          </button>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-6">
+            <div className="space-y-6">
+              {getCurrentPageCandidates().map((candidate) => (
+                <div key={candidate.id} className="bg-gray-50 border rounded-xl p-4 hover:shadow-md transition-shadow">
+                  <div className="flex flex-col space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                      <label className="font-medium text-gray-700 min-w-[100px]">İsim:</label>
                       <input
-                        type="number"
-                        min="0"
-                        max="10"
-                        value={candidate[criterion]}
-                        onChange={(e) => updateCandidateCriterion(candidate.id, criterion, e.target.value)}
-                        className="w-24 p-2 border rounded"
+                        type="text"
+                        value={candidate.name}
+                        onChange={(e) => updateCandidateName(candidate.id, e.target.value)}
+                        className="flex-1 p-3 border rounded-lg bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-shadow"
                         disabled={isSaving}
                       />
-                      <div className="flex-1 h-2 bg-gray-200 rounded">
-                        <div 
-                          className="h-full bg-purple-600 rounded"
-                          style={{ width: `${(candidate[criterion] / 10) * 100}%` }}
-                        />
-                      </div>
                     </div>
-                  ))}
+                    
+                    {criteria.map((criterion) => (
+                      <div key={criterion} className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                        <label className="font-medium text-gray-700 min-w-[100px]">{criterion}:</label>
+                        <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                          <div className="flex items-center space-x-3 w-24">
+                            <span className="font-medium text-purple-600 min-w-[24px]">{candidate[criterion]}</span>
+                          </div>
+                          <div className="flex-1 flex items-center space-x-4">
+                            <input
+                              type="range"
+                              min="0"
+                              max="10"
+                              value={candidate[criterion]}
+                              onChange={(e) => updateCandidateCriterion(candidate.id, criterion, parseInt(e.target.value))}
+                              className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                              disabled={isSaving}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-6 flex justify-between items-center">
-            <div className="flex space-x-2">
-              <button
-                onClick={prevPage}
-                disabled={currentPage === 0 || isSaving}
-                className="p-2 border rounded hover:bg-gray-100 disabled:opacity-50"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                onClick={nextPage}
-                disabled={currentPage === totalPages - 1 || isSaving}
-                className="p-2 border rounded hover:bg-gray-100 disabled:opacity-50"
-              >
-                <ChevronRight size={20} />
-              </button>
-              <span className="p-2">
-                Sayfa {currentPage + 1} / {totalPages}
-              </span>
+              ))}
             </div>
             
-            <div className="flex space-x-4">
-              <button
-                onClick={onClose}
-                disabled={isSaving}
-                className="px-4 py-2 border rounded hover:bg-gray-100 disabled:opacity-50"
-              >
-                İptal
-              </button>
-              <button
-                onClick={handleSave}
-                disabled={isSaving}
-                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50 flex items-center space-x-2"
-              >
-                {isSaving ? (
-                  <>
-                    <Loader className="animate-spin" size={20} />
-                    <span>Kaydediliyor...</span>
-                  </>
-                ) : (
-                  <>
-                    <Save size={20} />
-                    <span>Kaydet</span>
-                  </>
-                )}
-              </button>
+            <div className="sticky bottom-0 mt-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+              <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-lg p-2">
+                <button
+                  onClick={prevPage}
+                  disabled={currentPage === 0 || isSaving}
+                  className="p-2 border rounded-lg hover:bg-gray-100 disabled:opacity-50 transition-colors"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <span className="px-4 py-2 font-medium">
+                  Sayfa {currentPage + 1} / {totalPages}
+                </span>
+                <button
+                  onClick={nextPage}
+                  disabled={currentPage === totalPages - 1 || isSaving}
+                  className="p-2 border rounded-lg hover:bg-gray-100 disabled:opacity-50 transition-colors"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
             </div>
+          </div>
+
+          {/* Notifications section if any */}
+          <div className="px-6 py-4">
+            {/* Notifications will be rendered here */}
+          </div>
+
+          {/* Start Game Button Section */}
+          <div className="flex justify-center px-6 py-8 bg-gradient-to-t from-gray-50">
+            <button
+              onClick={handleSave}
+              disabled={isSaving}
+              className="w-full max-w-md px-8 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 disabled:opacity-50 shadow-lg hover:shadow-xl transition-all flex items-center justify-center space-x-3 font-medium text-lg"
+            >
+              <span>Oyuna Başla</span>
+              <ChevronRight size={24} />
+            </button>
           </div>
         </div>
       </div>

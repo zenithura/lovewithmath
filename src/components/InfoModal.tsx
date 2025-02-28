@@ -11,7 +11,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ onClose }) => {
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-gray-800">Optimal Durma Problemi Hakkında</h2>
+            <h2 className="text-2xl font-bold text-gray-800">Love with Math Hakkında</h2>
             <button 
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700"
@@ -21,9 +21,9 @@ const InfoModal: React.FC<InfoModalProps> = ({ onClose }) => {
           </div>
           
           <div className="prose max-w-none">
-            <h3>Optimal Durma Problemi (Sekreter Problemi) Nedir?</h3>
-            <p>
-              Optimal Durma Problemi, sırayla gelen seçenekler arasından en iyi seçimi yapmak için matematiksel bir stratejidir. 
+            <h3>Love with Math (Sekreter Problemi) Nedir?</h3>
+            <p className="text-gray-600 mb-4">
+              Love with Math, sırayla gelen seçenekler arasından en iyi seçimi yapmak için matematiksel bir stratejidir. 
               Bu problem, "Sekreter Problemi", "Evlilik Problemi" veya "En İyi Seçim Problemi" olarak da bilinir.
             </p>
             

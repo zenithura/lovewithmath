@@ -391,9 +391,9 @@ function App() {
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-8">
           <div className="flex justify-center items-center mb-4">
-            <img src="/logo.svg" alt="Optimal Durma Problemi" className="w-16 h-16" />
+            <img src="/logo.svg" alt="Love with Math" className="w-16 h-16" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-800">Optimal Durma Problemi</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Love with Math</h1>
         </header>
 
         {renderPhase()}
@@ -401,7 +401,7 @@ function App() {
         {/* Footer */}
         <footer className="bg-white p-4 shadow-inner mt-8">
           <div className="container mx-auto text-center text-gray-500 text-sm">
-            <p>Optimal Durma Problemi (Sekreter Problemi) Algoritması &copy; {new Date().getFullYear()}</p>
+            <p>Love with Math (Sekreter Problemi) Algoritması &copy; {new Date().getFullYear()}</p>
           </div>
         </footer>
 

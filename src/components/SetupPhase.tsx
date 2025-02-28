@@ -109,48 +109,59 @@ const SetupPhase: React.FC<SetupPhaseProps> = ({
         </div>
 
         {/* Customize candidates option */}
-        <div className="mt-8 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="customizeCandidates"
-              checked={customizeCandidates}
-              onChange={(e) => !criteriaChanged && setCustomizeCandidates(e.target.checked)}
-              disabled={criteriaChanged}
-              className={`h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded ${
-                criteriaChanged ? 'cursor-not-allowed opacity-60' : ''
-              }`}
-            />
-            <label 
-              htmlFor="customizeCandidates" 
-              className={`text-sm text-gray-700 ${criteriaChanged ? 'cursor-not-allowed' : ''}`}
-            >
-              Adayları özelleştir
-              {criteriaChanged && " (Kriter değişikliği yapıldığı için zorunlu)"}
-            </label>
+        <div className="mt-8 flex flex-col space-y-4">
+          <div className="flex items-center bg-white p-4 rounded-lg border hover:shadow-md transition-shadow">
+            <div className="flex items-center flex-1">
+              <input
+                type="checkbox"
+                id="customizeCandidates"
+                checked={customizeCandidates}
+                onChange={(e) => !criteriaChanged && setCustomizeCandidates(e.target.checked)}
+                disabled={criteriaChanged}
+                className={`h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 transition-colors ${
+                  criteriaChanged ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
+                }`}
+              />
+              <div className="ml-3">
+                <label 
+                  htmlFor="customizeCandidates" 
+                  className={`text-base font-medium text-gray-700 ${criteriaChanged ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                >
+                  Adayları özelleştir
+                </label>
+                {criteriaChanged && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    Kriter değişikliği yapıldığı için zorunlu
+                  </p>
+                )}
+              </div>
+            </div>
+            <Users size={20} className="text-purple-600 ml-2" />
           </div>
 
-          <button
-            onClick={onStart}
-            disabled={isLoading}
-            className={`flex items-center px-6 py-2 rounded-lg transition-colors ${
-              isLoading 
-                ? 'bg-gray-400 cursor-not-allowed' 
-                : 'bg-indigo-600 hover:bg-indigo-700 text-white'
-            }`}
-          >
-            {isLoading ? (
-              <>
-                <Loader className="animate-spin -ml-1 mr-2 h-5 w-5" />
-                İşleniyor...
-              </>
-            ) : (
-              <>
-                Oyuna Başla
-                <ChevronRight className="ml-2" size={20} />
-              </>
-            )}
-          </button>
+          <div className="flex justify-center w-full">
+            <button
+              onClick={onStart}
+              disabled={isLoading}
+              className={`w-full max-w-md px-8 py-4 rounded-xl transition-all flex items-center justify-center space-x-3 font-medium text-lg shadow-lg hover:shadow-xl ${
+                isLoading 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-green-600 hover:bg-green-700 text-white'
+              }`}
+            >
+              {isLoading ? (
+                <>
+                  <Loader className="animate-spin -ml-1 mr-2 h-5 w-5" />
+                  <span>İşleniyor...</span>
+                </>
+              ) : (
+                <>
+                  <span>Oyuna Başla</span>
+                  <ChevronRight size={24} />
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Observation threshold info */}
@@ -163,7 +174,7 @@ const SetupPhase: React.FC<SetupPhaseProps> = ({
             </div>
             <div className="ml-3">
               <p className="text-sm text-blue-700">
-                Optimal Durma Problemi algoritmasına göre, ilk {Math.floor(totalCandidates / Math.E)} adayı (%37) sadece gözlemleyeceksiniz. 
+                Love with Math algoritmasına göre, ilk {Math.floor(totalCandidates / Math.E)} adayı (%37) sadece gözlemleyeceksiniz. 
                 Bu süreçte seçim yapamazsınız, ancak bu adaylar arasındaki en iyi puanı belirleyerek sonraki adayları değerlendirmek için bir eşik oluşturacaksınız.
               </p>
             </div>

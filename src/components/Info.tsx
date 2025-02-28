@@ -9,15 +9,15 @@ const Info: React.FC<InfoProps> = ({ onClose }) => {
   return (
     <div className="info-container">
       <header className="info-header">
-        <h1>Optimal Durma Problemi Hakkında</h1>
+        <h1>Love with Math Hakkında</h1>
         <button className="close-button" onClick={onClose}>✕</button>
       </header>
       
       <div className="info-content">
         <section className="info-section">
-          <h2>Optimal Durma Problemi (Sekreter Problemi) Nedir?</h2>
+          <h2>Love with Math (Sekreter Problemi) Nedir?</h2>
           <p>
-            Optimal Durma Problemi, sırayla gelen seçenekler arasından en iyi seçimi yapmak için
+            Love with Math, sırayla gelen seçenekler arasından en iyi seçimi yapmak için
             matematiksel bir stratejidir. Bu problem, "Sekreter Problemi", "Evlilik Problemi" veya
             "En İyi Seçim Problemi" olarak da bilinir.
           </p>
