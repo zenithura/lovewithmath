@@ -89,18 +89,18 @@ const SetupPhase: React.FC<SetupPhaseProps> = ({
               </div>
             ))}
           </div>
-          <div className="flex">
+          <div className="flex space-x-2">
             <input
               type="text"
               value={newCriterion}
               onChange={(e) => setNewCriterion(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Yeni kriter ekle"
-              className="flex-grow px-4 py-2 border border-gray-300 rounded-l-md focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
             />
             <button
               onClick={handleAddCriterion}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-r-md hover:bg-indigo-700 flex items-center"
+              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 flex items-center whitespace-nowrap"
             >
               <Plus size={16} className="mr-1" />
               Ekle

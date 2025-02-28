@@ -90,6 +90,17 @@ const CandidateSetupModal: React.FC<CandidateSetupModalProps> = ({
     }
   };
 
+  // Smooth scroll to top when page changes
+  useEffect(() => {
+    const container = document.querySelector('.overflow-y-auto');
+    if (container) {
+      container.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }, [currentPage]);
+
   // Handle save
   const handleSave = () => {
     setIsSaving(true);
